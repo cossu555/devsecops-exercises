@@ -70,10 +70,12 @@ public class CommentsCache {
     var jc = JAXBContext.newInstance(Comment.class);
     var xif = XMLInputFactory.newInstance();
 
-    // TODO fix me disabled for now.
+    // Disable external entity processing to prevent XXE attacks
     if (securityEnabled) {
-      xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE
-      xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // XMLInputFactory.SUPPORT_DTD, Boolean.FALSE
+      xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+      xif.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+      xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
+      xif.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
     }
 
     var xsr = xif.createXMLStreamReader(new StringReader(xml));
